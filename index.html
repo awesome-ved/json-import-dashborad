@@ -1,9 +1,58 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <title>CSS</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
         <style>
-            #itemary{
+           body{
+               background-color: #E0E0E0;
+           }
+           .list  {
+                float: left;
+                width: 47%;
+                height: 300px;
+                background-color: #ffffff;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                box-shadow: 1px 1px 5px 1px #666666;
+           }
+           #s11{
+                padding: 1%;
+                margin-right:1%
+           }
+           #s12{
+                padding: 1%;
+           }
+           #s21{
+               width: 99% ;
+           }
+           
+           #main{
+              background-color: #E0E0E0; 
+              padding-left: 10px;
+              box-shadow: 5px 5px px 0px;
+           }
+           .table1 #r3c2 {
+               padding-right: 10px;
+           }
+           #next{
+               margin-left: 10px;
+               padding:10px;
+               background-color: rgb(0, 209, 122);
+               border:10px;
+               color:white;
+
+           }
+           .dropdown{
+               height: 30px;
+               width: 100px;
+           }
+           #itemary{
                 font-family: Arial, Helvetica, sans-serif;
                 border-collapse: collapse;
                 width: 100%;
@@ -30,44 +79,128 @@
                 text-align: center;
                 background-color: #af02da;
                 color:white;
-                font-weight: 1000;
+                font
             }
         </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <h3 style="padding-top: 10px; padding-bottom: 10px;margin-left:10px">Import Products</h3>
+        <div id="main">
+            
+            <div id="body">
+                <section>
+                    <div class="list" id="s11">
+                        <table class="table1">
+                            <tr>
+                                <td>Step1:</td>
+                                <td>Select File</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input type="file" id="fileForUpload">
+                                </td>
+                            </tr>
+                            <tr >
+                                <td></td>
+                                <td id="r3c2" >
+                                    Supported File Type(s): .csv, .json
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="list" id= "s12">
+                        <table>
+                            <tr>
+                                <td>Step2:</td>
+                                <td>File Type</td> 
+                                <td>
+                                    <select id="format" class="dropdown" name="formats">
+                                        <option value="json">JSON</option>
+                                        <option value="csv">CSV</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Charachter Encoding</td> 
+                                <td>
+                                    <select id="format" class="dropdown" name="charachter-encoding">
+                                        <option value="utf-8">UTF8</option>
+                                        <option value="none">NONE</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Delimiter</td> 
+                                <td>
+                                    <select id="format" class="dropdown" name="delimiter">
+                                        <option value="{">Bracket</option>
+                                        <option value=",">COMMA</option>
+                                        <option value=" ">SPACE</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Has Header</td> 
+                                <td>
+                                    <input type="checkbox">
+                                </td>
+                            </tr>
+                        </table>
+                        
+                    </div>
+                </section>
+                <section>
+                    <div class="list" id="s21">
+                        Bozzo
+                    </div>
+                </section>
+            </div>
 
-        <h1 id="first">JSON LIST</h1>
-        <a href="https://s3.amazonaws.com/open-to-cors/assignment.json">Json link</a>
-        <p> </p>
-        <table id ="itemary">
-        </table>
-        <div id="dmo"></div>
+        </div>
+        <button id="next" type="button" onclick="readFile()">NEXT</button>
+        <div id="fileContents">
+            <table id ="itemary">
+            </table>
+        </div>
         <script>
-            //Intializing html
-            let html = `<tr>
+            function readFile(){
+                var file = document.getElementById("fileForUpload").files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.readAsText(file, "UTF-8");
+                    reader.onload = function (evt) {
+                        const txt = evt.target.result;
+                        alert(txt);
+                        let html = `<tr>
                             <th>Subcategory</th>
                             <th>Title</th>
                             <th>Price</th>
                             <th data-order="desc">Popularity</th>
                         </tr>`;
-            const xmlhttp = new XMLHttpRequest();
-            xmlhttp.onload = function() {
-                const object = JSON.parse(arryinJSON(this.responseText));
-                // html += `<p>${myArr.products[0].subcategory}</p>`
-                for (var j = 0; j<object.products.length; j++){
-                    html += `<tr>
-                                <td>${object.products[j].subcategory}</td>
-                                <td>${object.products[j].title}</td>
-                                <td>${object.products[j].price}</td>
-                                <td>${object.products[j].popularity}</td>
-                            </tr>`;
-                    console.log(object.products[j].subcategory);
+                        const object = JSON.parse(arryinJSON(txt));
+                        // html += `<p>${myArr.products[0].subcategory}</p>`
+                        for (var j = 0; j<object.products.length; j++){
+                            html += `<tr>
+                                        <td>${object.products[j].subcategory}</td>
+                                        <td>${object.products[j].title}</td>
+                                        <td>${object.products[j].price}</td>
+                                        <td>${object.products[j].popularity}</td>
+                                    </tr>`;
+                            console.log(object.products[j].subcategory);
+                        }
+                        
+                        document.getElementById("itemary").innerHTML = html;
+                    }
+                    reader.onerror = function (evt) {
+                        document.getElementById("fileContents").innerHTML = "error reading file";
+                    }
                 }
-                document.getElementById("itemary").innerHTML = html;
-                
             }
-            xmlhttp.open("GET", "https://s3.amazonaws.com/open-to-cors/assignment.json", true);
-            xmlhttp.send();
 
             //function to convert JSON file into readable JSON format
             function arryinJSON(jsontext){
